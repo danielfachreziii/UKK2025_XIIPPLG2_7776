@@ -1,37 +1,48 @@
-<div class="container-fluid px-4">
-                        <h1 class="mt-4">Tasks</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Tasks</li>
-                        </ol>
-                        
-                        <a href="?page=categories_tambah" class="btn btn-primary">+ tambah Data</a>
-                        <hr>
-               <table class="table table-bordered">
-                <tr>
-                    <th>Categories</th>
-                    <th>tasks</th>
-                    <th>id</th>
-                    <th>user id</th>
-                    <th>Aksi</th>
-                </tr>
+<?php
+    if(isset($_POST['categories'])) {
+        $category= $_POST['categories'];
+        $id = $_POST['id'];
+        $user_id = $_POST['user_id'];
 
-                <?php
-                    $query = mysqli_query($koneksi, "SELECT*FROM categories");
-                    while($data = mysqli_fetch_array($query)){
-                        ?>
-                        <tr>
-                            <td><?php echo $data['categories']; ?></td>
-                            <td><?php echo $data['id']; ?></td>
-                            <td><?php echo $data['user_id']; ?></td>
-                            <td>
-                                <a href="?page=categories_ubah&&id=<?php echo $data['categories']; ?>" class="btn btn-primary">Ubah</a>
-                                <a href="?page=pelanggan_hapus&&id=<?php echo $data['categories']; ?>" class="btn btn-danger">Hapus</a>
-                            </td>
-                        </tr>
-                        <?php
-                    }
-                    
-                ?>
+    $query = mysqli_query($koneksi, "INSERT INTO categories(id,categories,user_id) values('$id','$categories','$user_id')");
 
-               </table>
-  </div>
+        if($query) {
+        echo '<script>alert("Tambah Data Berhasil")</script>';
+        }else{
+        echo '<script>alert("Tambah Data Gagal")</script>';
+        }
+    }
+
+?>
+
+<div class="container-fluid">
+    <h1 class="mt-4">Tasks</h1>
+    <a href="?page=categories" class="btn btn-danger">kembali</a>
+            <form method="post">
+                <table class="table table-bordered">
+                    <tr>
+                        <td width="200">id</td>
+                        <td width="1">:</td>
+                        <td><input class="form-control" type="text" name="id"></td>
+                    </tr>
+                    <tr>
+                        <td>Categories</td>
+                        <td>:</td>
+                        <td>
+                            <textarea name="categories" rows="5" class="form-control"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>user_id</td>
+                        <td>:</td>
+                        <td><input class="form-control" type="number" step="0" name="user_id"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary" name="submit" value="submit" >Simpan</button>
+                            <button type="reset" class="btn btn-danger">Reset</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+</div>
